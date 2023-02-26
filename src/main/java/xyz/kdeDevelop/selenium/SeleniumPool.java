@@ -54,7 +54,7 @@ public class SeleniumPool {
     }
 
     public void returnSelenium(Selenium selenium) {
-        selenium.url("https://google.com");
+        selenium.url(seleniumData.getUrl());
         seleniumPool.add(selenium);
     }
 
