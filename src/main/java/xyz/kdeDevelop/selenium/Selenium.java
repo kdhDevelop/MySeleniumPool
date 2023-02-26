@@ -10,7 +10,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-import xyz.kdeDevelop.MyUtils;
 
 import java.io.File;
 import java.time.Duration;
@@ -76,9 +75,7 @@ public class Selenium {
 
     public void clearCookie() {
         System.out.println("CLEAR COOKIE");
-        MyUtils.sleep(5);
         driver.manage().deleteAllCookies();
-        MyUtils.sleep(5);
     }
 
     public void removeAlert() {
