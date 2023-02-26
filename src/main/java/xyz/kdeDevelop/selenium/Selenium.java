@@ -65,8 +65,6 @@ public class Selenium {
             return Temp;
         });
 
-        MyUtils.sleep(1);
-
         return webElement;
     }
 
