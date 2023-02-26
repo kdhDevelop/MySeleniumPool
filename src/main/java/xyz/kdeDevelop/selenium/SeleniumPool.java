@@ -5,16 +5,13 @@ import java.util.Vector;
 public class SeleniumPool {
     private final int size;
 
-    private final String URL;
-    private final String WEB_DRIVER_ID;
-    private final String WEB_DRIVER_PATH;
-    private final String PROFILE;
+    private final SeleniumData seleniumData;
     private final Vector<Selenium> seleniumList = new Vector<>();
     private final Vector<Selenium> seleniumPool = new Vector<>();
     class Init implements Runnable {
         @Override
         public void run() {
-            Selenium selenium = new Selenium(URL, WEB_DRIVER_ID, WEB_DRIVER_PATH, PROFILE);
+            Selenium selenium = new Selenium(seleniumData);
             seleniumList.add(selenium);
             seleniumPool.add(selenium);
         }
@@ -29,12 +26,10 @@ public class SeleniumPool {
         }
     }
 
-    public SeleniumPool(int poolSize, String URL, String WEB_DRIVER_ID, String WEB_DRIVER_PATH, String PROFILE) {
-        size = poolSize;
-        this.URL = URL;
-        this.WEB_DRIVER_ID = WEB_DRIVER_ID;
-        this.WEB_DRIVER_PATH = WEB_DRIVER_PATH;
-        this.PROFILE = PROFILE;
+    public SeleniumPool(int size, SeleniumData seleniumData) {
+        this.size = size;
+        this.seleniumData = seleniumData;
+
         init();
     }
 

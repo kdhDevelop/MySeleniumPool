@@ -1,7 +1,7 @@
 package xyz.kdeDevelop.selenium;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -19,21 +19,27 @@ public class Selenium {
     private final Wait<WebDriver> driverWait;
     private final FirefoxDriver driver;
 
-    public Selenium(String URL, String WEB_DRIVER_ID, String WEB_DRIVER_PATH, String PROFILE) {
-
-        System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+    public Selenium(SeleniumData seleniumData) {
+        System.setProperty("webdriver.gecko.driver", seleniumData.getDriverDirectory());
 
         FirefoxOptions firefoxOptions = new FirefoxOptions();
-        firefoxOptions.setHeadless(true);
-
-        FirefoxProfile firefoxProfile = new FirefoxProfile(new File(PROFILE));
-        firefoxOptions.setProfile(firefoxProfile);
+        if (seleniumData.getHeadless() != null) {
+            firefoxOptions.setHeadless(true);
+        }
+        if (seleniumData.getProxyUrl() != null) {
+            Proxy proxy = new Proxy();
+            proxy.setHttpProxy(seleniumData.getProxyUrl());
+            firefoxOptions.setProxy(proxy);
+        }
+        if (seleniumData.getProfileDirectory() != null) {
+            FirefoxProfile firefoxProfile = new FirefoxProfile(new File(seleniumData.getProfileDirectory()));
+            firefoxOptions.setProfile(firefoxProfile);
+        }
 
         driver = new FirefoxDriver(firefoxOptions);
-        driver.get(URL);
+        driver.get(seleniumData.getUrl());
 
         driverWait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofMinutes(10)).pollingEvery(Duration.ofSeconds(1)).ignoring(Exception.class);
-
     }
 
     public WebElement waitElement(String by, String name) {
